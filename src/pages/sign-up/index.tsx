@@ -23,16 +23,16 @@ const createAccountSchema = z
     password: z
       .string({ required_error: 'Password is required' })
       .min(6, { message: 'Shold be greater or equal 6 characters' }),
-    confirmationPassword: z.string({ required_error: 'Password is required' }),
+    passwordConfimation: z.string({ required_error: 'Password is required' }).trim(),
   })
   .refine(
     (values) => {
-      if (values.password == values.confirmationPassword) {
+      if (values.password == values.passwordConfimation) {
         return true
       }
       return false
     },
-    { message: 'Password does not match!', path: ['confirmationPassword'] }
+    { message: 'Password does not match!', path: ['passwordConfimation'] }
   )
 
 type CreateAccountData = z.infer<typeof createAccountSchema>
@@ -90,9 +90,9 @@ export function SignUpPage() {
           type="password"
           label="Confirmação de Senha"
           placeholder="Confirme sua senha"
-          {...register('confirmationPassword')}
-          hasError={!!errors.confirmationPassword}
-          errorMessage={errors.confirmationPassword?.message}
+          {...register('passwordConfimation')}
+          hasError={!!errors.passwordConfimation}
+          errorMessage={errors.passwordConfimation?.message}
         />
         <CustomButton icon={CiLogin} title="Criar Conta" onClick={handleSubmit(onSubmit)} />
       </div>
