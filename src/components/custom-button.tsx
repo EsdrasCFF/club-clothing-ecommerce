@@ -4,12 +4,12 @@ import { IconType } from 'react-icons'
 
 import { Button } from './ui/button'
 
-interface ButtonIcontProps extends ComponentProps<'button'> {
+interface CustomButtonProps extends ComponentProps<'button'> {
   icon: LucideIcon | IconType
   title: string
 }
 
-export function ButtonIcon({ icon: Icon, title, ...rest }: ButtonIcontProps) {
+export function CustomButton({ icon: Icon, title, ...rest }: CustomButtonProps) {
   return (
     <Button {...rest} className="w-full">
       <Icon size={25} /> <span className="ml-2 font-semibold text-white2">{title}</span>
