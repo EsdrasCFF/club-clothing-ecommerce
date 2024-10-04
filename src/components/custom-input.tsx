@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef,Ref } from 'react'
+import { ComponentProps, forwardRef, Ref } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -8,9 +8,13 @@ interface CustomInputProps extends ComponentProps<'input'> {
   label: string
   placeholder: string
   hasError?: boolean
+  errorMessage?: string
 }
 
-function CustomInput({ label, placeholder, hasError, ...rest }: CustomInputProps, ref: Ref<HTMLInputElement>) {
+function CustomInput(
+  { label, placeholder, hasError, errorMessage, ...rest }: CustomInputProps,
+  ref: Ref<HTMLInputElement>
+) {
   return (
     <div className="flex w-full flex-col gap-1">
       <label className="font-semibold text-black3">{label}</label>
@@ -23,6 +27,7 @@ function CustomInput({ label, placeholder, hasError, ...rest }: CustomInputProps
         )}
         placeholder={placeholder}
       />
+      {errorMessage && <p className="text-right text-xs text-error">{errorMessage}</p>}
     </div>
   )
 }
