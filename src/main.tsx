@@ -9,11 +9,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <div className="flex h-screen flex-col">
+      <div className="flex h-screen flex-col items-center">
         <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <div className="flex h-full w-full max-w-screen-xl flex-col">
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   </StrictMode>
