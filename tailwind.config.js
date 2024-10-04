@@ -59,6 +59,7 @@ export default {
         gray2: '#E9ECEF',
         gray4: '#6C757D',
         black3: '#343A40',
+        error: '#FF6A6A',
       },
     },
   },
