@@ -9,7 +9,7 @@ export function Header() {
 
         <div className="flex items-center gap-10 text-base font-semibold leading-none text-white">
           <Link to={''}>Explorar</Link>
-          <Link to={''}> Login </Link>
+          <Link to="/login"> Login </Link>
           <Link to={''}> Criar Conta </Link>
           <ShoppingCart strokeWidth={2} />
         </div>
