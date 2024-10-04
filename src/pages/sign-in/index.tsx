@@ -19,7 +19,7 @@ const accountLoginSchema = z.object({
 
 type AccountLoginData = z.infer<typeof accountLoginSchema>
 
-export function LoginPage() {
+export function SignInPage() {
   const {
     register,
     handleSubmit,
