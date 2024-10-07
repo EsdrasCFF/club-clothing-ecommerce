@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { collection, getDocs } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 
@@ -23,12 +21,8 @@ export interface CategoryProps {
   products: Product[]
 }
 
-const imageUrls = ['/category1.png', '/category2.png', '/category3.png', '/category4.png', '/category5.png']
-
 export function CategoriesArea() {
   const [categories, setCategories] = useState<CategoryProps[]>([])
-
-  const categoriesArray = ['Tênis', 'Chapéus', 'Jaquetas', 'Feminino', 'Masculino']
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -54,19 +48,19 @@ export function CategoriesArea() {
   return (
     <main className="flex h-full w-full justify-center px-5">
       <div className="grid h-full w-full grid-cols-2 gap-2">
-        {categoriesArray.map((category, index) => {
+        {categories.map((category, index) => {
           if (index == 2) {
             return (
               <CategoryItem
                 className="ro col-span-2"
-                key={String(category)}
-                categoryName={categoriesArray[index]}
-                src={imageUrls[index]}
+                key={category.name}
+                categoryName={category.displayName}
+                src={category.imageUrl}
               />
             )
           }
 
-          return <CategoryItem key={String(category)} categoryName={categoriesArray[index]} src={imageUrls[index]} />
+          return <CategoryItem key={category.name} categoryName={category.displayName} src={category.imageUrl} />
         })}
       </div>
     </main>
