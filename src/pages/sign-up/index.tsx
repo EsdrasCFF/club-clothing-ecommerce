@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { addDoc, collection } from 'firebase/firestore'
 import {} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
@@ -6,12 +8,13 @@ import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
+import { auth, db } from '@/config/db/firebase.config'
 
 import { Separator } from '../../components/ui/separator'
 
 const createAccountSchema = z
   .object({
-    name: z
+    firstName: z
       .string({ required_error: 'Name is required' })
       .trim()
       .min(2, { message: 'Name should be greater or equal 3 characters' }),
@@ -48,8 +51,19 @@ export function SignUpPage() {
 
   console.log(errors)
 
-  function onSubmit(data: CreateAccountData) {
-    console.log(data)
+  async function onSubmit(data: CreateAccountData) {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password)
+
+      await addDoc(collection(db, 'users'), {
+        id: userCredentials.user.uid,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: userCredentials.user.email,
+      })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -60,9 +74,9 @@ export function SignUpPage() {
         <CustomInput
           label="Nome"
           placeholder="Digite seu nome"
-          {...register('name')}
-          hasError={!!errors.name}
-          errorMessage={errors.name?.message}
+          {...register('firstName')}
+          hasError={!!errors.firstName}
+          errorMessage={errors.firstName?.message}
         />
         <CustomInput
           label="Sobrenome"
