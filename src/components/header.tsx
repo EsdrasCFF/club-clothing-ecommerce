@@ -1,5 +1,8 @@
+import { signOut } from 'firebase/auth'
 import { ShoppingCart } from 'lucide-react'
 import { Link } from 'react-router-dom'
+
+import { auth } from '@/config/db/firebase.config'
 
 export function Header() {
   return (
@@ -11,6 +14,10 @@ export function Header() {
           <Link to={''}>Explorar</Link>
           <Link to="/login"> Login </Link>
           <Link to="/sign-up"> Criar Conta </Link>
+          <Link to="" onClick={() => signOut(auth)}>
+            {' '}
+            Sair{' '}
+          </Link>
           <ShoppingCart strokeWidth={2} />
         </div>
       </div>
