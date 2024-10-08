@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
 import {} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
@@ -44,12 +45,11 @@ export function SignUpPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<CreateAccountData>({
     resolver: zodResolver(createAccountSchema),
   })
-
-  console.log(errors)
 
   async function onSubmit(data: CreateAccountData) {
     try {
@@ -62,7 +62,12 @@ export function SignUpPage() {
         email: userCredentials.user.email,
       })
     } catch (e) {
-      console.log(e)
+      const err = e as AuthError
+      if (err.code === AuthErrorCodes.EMAIL_EXISTS) {
+        toast.error('This e-mail already in use!', { position: 'top-right' })
+        setError('email', { message: 'This e-mail already in use' })
+        return
+      }
     }
   }
 
