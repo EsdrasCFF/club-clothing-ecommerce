@@ -1,20 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { AuthError, AuthErrorCodes, signInWithEmailAndPassword } from 'firebase/auth'
 import {} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
 import { FaGoogle } from 'react-icons/fa'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
+import { auth } from '@/config/db/firebase.config'
 
 import { Separator } from '../../components/ui/separator'
 
 const accountLoginSchema = z.object({
   email: z.string({ required_error: 'Email is required' }).email({ message: 'Invalid e-mail' }),
-  password: z
-    .string({ required_error: 'Password is required' })
-    .min(6, { message: 'Shold be greater or equal 6 characters' }),
+  password: z.string({ required_error: 'Password is required' }),
 })
 
 type AccountLoginData = z.infer<typeof accountLoginSchema>
@@ -23,15 +24,25 @@ export function SignInPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<AccountLoginData>({
     resolver: zodResolver(accountLoginSchema),
   })
 
-  console.log(errors)
-
-  function onSubmit(data: AccountLoginData) {
-    console.log(data)
+  async function onSubmit(data: AccountLoginData) {
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+    } catch (error) {
+      const err = error as AuthError
+      console.log({ err })
+      if (err.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS || err.code === AuthErrorCodes.USER_DELETED) {
+        toast.error('Password or e-mail invalid')
+        setError('password', { message: 'Email or Password is invalid' })
+        setError('email', { message: 'Email or Password is invalid' })
+        return
+      }
+    }
   }
 
   return (
