@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AuthError, AuthErrorCodes, signInWithEmailAndPassword } from 'firebase/auth'
+import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import {} from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
@@ -9,7 +10,7 @@ import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
-import { auth } from '@/config/db/firebase.config'
+import { auth, db, googleProvider } from '@/config/db/firebase.config'
 
 import { Separator } from '../../components/ui/separator'
 
@@ -45,11 +46,37 @@ export function SignInPage() {
     }
   }
 
+  async function handleSignInWithGoogle() {
+    try {
+      const userCredentials = await signInWithPopup(auth, googleProvider)
+
+      const querySnapshot = await getDocs(query(collection(db, 'users'), where('id', '==', userCredentials.user.uid)))
+
+      if (querySnapshot.empty) {
+        const firstName = userCredentials.user.displayName?.split(' ')[0]
+        const lastName = userCredentials.user.displayName?.split(' ')[1]
+
+        await addDoc(collection(db, 'users'), {
+          id: userCredentials.user.uid,
+          email: userCredentials.user.email,
+          firstName,
+          lastName,
+          provider: 'google',
+        })
+      }
+
+      toast.success('Successfully authentication!')
+    } catch (err) {
+      toast.error('Failed to authentication', { position: 'top-right' })
+      console.log(err)
+    }
+  }
+
   return (
     <main className="flex h-full w-full items-center justify-center px-5">
       <div className="flex w-full max-w-[28rem] flex-col items-center justify-center gap-5">
         <h3 className="text-xl font-semibold text-black">Entre com sua conta</h3>
-        <CustomButton icon={FaGoogle} title="Entrar com Google" className="w-full" />
+        <CustomButton icon={FaGoogle} title="Entrar com Google" className="w-full" onClick={handleSignInWithGoogle} />
         <p className="font-medium">ou entre com seu e-mail</p>
         <Separator className="bg-gray4" />
         <CustomInput

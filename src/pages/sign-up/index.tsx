@@ -60,6 +60,7 @@ export function SignUpPage() {
         firstName: data.firstName,
         lastName: data.lastName,
         email: userCredentials.user.email,
+        provider: 'firebase',
       })
     } catch (e) {
       const err = e as AuthError
