@@ -1,15 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
 import {} from 'lucide-react'
+import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
 import { auth, db } from '@/config/db/firebase.config'
+import { UserContext } from '@/contexts/user-context'
 
 import { Separator } from '../../components/ui/separator'
 
@@ -51,6 +56,10 @@ export function SignUpPage() {
     resolver: zodResolver(createAccountSchema),
   })
 
+  const { isAuthenticated } = useContext(UserContext)
+
+  const navigate = useNavigate()
+
   async function onSubmit(data: CreateAccountData) {
     try {
       const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password)
@@ -71,6 +80,12 @@ export function SignUpPage() {
       }
     }
   }
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return navigate('/')
+    }
+  }, [isAuthenticated])
 
   return (
     <main className="flex h-full w-full items-center justify-center px-5">

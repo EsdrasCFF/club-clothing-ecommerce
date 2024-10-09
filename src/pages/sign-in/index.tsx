@@ -1,16 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import {} from 'lucide-react'
+import { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
 import { FaGoogle } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
 import { auth, db, googleProvider } from '@/config/db/firebase.config'
+import { UserContext } from '@/contexts/user-context'
 
 import { Separator } from '../../components/ui/separator'
 
@@ -30,6 +35,10 @@ export function SignInPage() {
   } = useForm<AccountLoginData>({
     resolver: zodResolver(accountLoginSchema),
   })
+
+  const { isAuthenticated } = useContext(UserContext)
+
+  const navigate = useNavigate()
 
   async function onSubmit(data: AccountLoginData) {
     try {
@@ -71,6 +80,12 @@ export function SignInPage() {
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return navigate('/')
+    }
+  }, [isAuthenticated])
 
   return (
     <main className="flex h-full w-full items-center justify-center px-5">
