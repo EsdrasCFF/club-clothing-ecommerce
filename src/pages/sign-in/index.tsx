@@ -14,6 +14,7 @@ import { z } from 'zod'
 
 import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
+import { LoadingGlobal } from '@/components/loading-global'
 import { auth, db, googleProvider } from '@/config/db/firebase.config'
 import { UserContext } from '@/contexts/user-context'
 
@@ -36,7 +37,7 @@ export function SignInPage() {
     resolver: zodResolver(accountLoginSchema),
   })
 
-  const { isAuthenticated } = useContext(UserContext)
+  const { isAuthenticated, isLoading } = useContext(UserContext)
 
   const navigate = useNavigate()
 
@@ -82,10 +83,14 @@ export function SignInPage() {
   }
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
       return navigate('/')
     }
   }, [isAuthenticated])
+
+  if (isLoading || isAuthenticated) {
+    return <LoadingGlobal />
+  }
 
   return (
     <main className="flex h-full w-full items-center justify-center px-5">
