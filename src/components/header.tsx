@@ -1,32 +1,13 @@
-import { onAuthStateChanged, signOut } from 'firebase/auth'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { signOut } from 'firebase/auth'
 import { ShoppingCart } from 'lucide-react'
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
-import { auth, db } from '@/config/db/firebase.config'
-import { User, UserContext } from '@/contexts/user-context'
+import { auth } from '@/config/db/firebase.config'
+import { UserContext } from '@/contexts/user-context'
 
 export function Header() {
-  const { isAuthenticated, logoutUser, loginUser } = useContext(UserContext)
-
-  onAuthStateChanged(auth, async (user) => {
-    const isSigningOut = isAuthenticated && !user
-
-    if (isSigningOut) {
-      return logoutUser()
-    }
-
-    const isSigningIn = !isAuthenticated && user
-
-    if (isSigningIn) {
-      const querySnapshot = await getDocs(query(collection(db, 'users'), where('id', '==', user.uid)))
-
-      const userFromFirestore = querySnapshot.docs[0].data()
-
-      return loginUser(userFromFirestore as User)
-    }
-  })
+  const { isAuthenticated } = useContext(UserContext)
 
   return (
     <header className="flex h-16 w-full justify-center bg-customPrimary">
