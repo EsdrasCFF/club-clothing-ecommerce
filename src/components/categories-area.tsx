@@ -1,10 +1,11 @@
-import { collection, getDocs } from 'firebase/firestore'
-import { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
 
-import { db } from '@/config/db/firebase.config'
-import { categoryConverter } from '@/lib/converters/firebase.converters'
+import { useContext, useEffect } from 'react'
+
+import { CategoryContext } from '@/contexts/category-context'
 
 import { CategoryItem } from './category-item'
+import { LoadingGlobal } from './loading-global'
 
 export interface Product {
   id: string
@@ -22,28 +23,16 @@ export interface CategoryProps {
 }
 
 export function CategoriesArea() {
-  const [categories, setCategories] = useState<CategoryProps[]>([])
+  const { categories, fetchCategories, isLoading } = useContext(CategoryContext)
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const categoriesFromFirestore: CategoryProps[] = []
-
-        const querySnapshot = await getDocs(collection(db, 'categories').withConverter(categoryConverter))
-
-        querySnapshot.forEach((doc) => {
-          categoriesFromFirestore.push(doc.data())
-        })
-
-        setCategories(categoriesFromFirestore)
-        console.log({ categoriesFromFirestore })
-      } catch (e) {
-        console.log('Error to fetch categories:', e)
-      }
-    }
-
+    console.log('renderizou')
     fetchCategories()
   }, [])
+
+  if (isLoading) {
+    return <LoadingGlobal />
+  }
 
   return (
     <main className="flex h-full w-full justify-center px-5">
