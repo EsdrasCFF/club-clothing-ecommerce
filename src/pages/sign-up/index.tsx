@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
 import {} from 'lucide-react'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
 import { useNavigate } from 'react-router-dom'
@@ -57,12 +57,15 @@ export function SignUpPage() {
     resolver: zodResolver(createAccountSchema),
   })
 
+  const [signInIsLoading, setSignInIsLoading] = useState(false)
+
   const { isAuthenticated, isLoading } = useContext(UserContext)
 
   const navigate = useNavigate()
 
   async function onSubmit(data: CreateAccountData) {
     try {
+      setSignInIsLoading(true)
       const userCredentials = await createUserWithEmailAndPassword(auth, data.email, data.password)
 
       await addDoc(collection(db, 'users'), {
@@ -79,6 +82,8 @@ export function SignUpPage() {
         setError('email', { message: 'This e-mail already in use' })
         return
       }
+    } finally {
+      setSignInIsLoading(false)
     }
   }
 
@@ -88,7 +93,7 @@ export function SignUpPage() {
     }
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated) {
+  if (isLoading || isAuthenticated || signInIsLoading) {
     return <LoadingGlobal />
   }
 

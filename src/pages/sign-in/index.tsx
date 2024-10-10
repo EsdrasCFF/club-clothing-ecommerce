@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 import {} from 'lucide-react'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
 import { FaGoogle } from 'react-icons/fa'
@@ -39,10 +39,13 @@ export function SignInPage() {
 
   const { isAuthenticated, isLoading } = useContext(UserContext)
 
+  const [signInIsLoading, setSignInIsLoading] = useState(false)
+
   const navigate = useNavigate()
 
   async function onSubmit(data: AccountLoginData) {
     try {
+      setSignInIsLoading(true)
       await signInWithEmailAndPassword(auth, data.email, data.password)
     } catch (error) {
       const err = error as AuthError
@@ -53,11 +56,14 @@ export function SignInPage() {
         setError('email', { message: 'Email or Password is invalid' })
         return
       }
+    } finally {
+      setSignInIsLoading(false)
     }
   }
 
   async function handleSignInWithGoogle() {
     try {
+      setSignInIsLoading(true)
       const userCredentials = await signInWithPopup(auth, googleProvider)
 
       const querySnapshot = await getDocs(query(collection(db, 'users'), where('id', '==', userCredentials.user.uid)))
@@ -79,6 +85,8 @@ export function SignInPage() {
     } catch (err) {
       toast.error('Failed to authentication', { position: 'top-right' })
       console.log(err)
+    } finally {
+      setSignInIsLoading(false)
     }
   }
 
@@ -88,7 +96,7 @@ export function SignInPage() {
     }
   }, [isAuthenticated])
 
-  if (isLoading || isAuthenticated) {
+  if (isLoading || isAuthenticated || signInIsLoading) {
     return <LoadingGlobal />
   }
 
