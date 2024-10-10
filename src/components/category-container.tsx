@@ -11,15 +11,9 @@ export function CategoryCotainer({ category }: CategoryContainerProps) {
     <div className="flex flex-col gap-2">
       <Title text={category.name} />
       <div className="flex gap-5">
-        {category.products.map((product, index) => {
-          if (index > 3) {
-            return
-          }
-
-          return (
-            <CategoryProduct imageUrl={product.imageUrl} name={product.name} key={product.id} price={product.price} />
-          )
-        })}
+        {category.products.slice(0, 4).map((product) => (
+          <CategoryProduct imageUrl={product.imageUrl} name={product.name} key={product.id} price={product.price} />
+        ))}
       </div>
     </div>
   )
