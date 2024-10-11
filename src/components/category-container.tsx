@@ -12,7 +12,7 @@ export function CategoryCotainer({ category }: CategoryContainerProps) {
       <Title text={category.name} />
       <div className="flex gap-5">
         {category.products.slice(0, 4).map((product) => (
-          <ProductItem imageUrl={product.imageUrl} name={product.name} key={product.id} price={product.price} />
+          <ProductItem product={product} key={product.id} />
         ))}
       </div>
     </div>
