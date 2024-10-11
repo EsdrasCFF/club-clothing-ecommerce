@@ -8,6 +8,7 @@ import { Toaster } from 'sonner'
 import { Header } from './components/header'
 import { CategoryContextProvider } from './contexts/category-context'
 import { UserContextProvider } from './contexts/user-context'
+import CategoryDetailsPage from './pages/category-details'
 import ExplorePage from './pages/explore'
 import Home from './pages/home'
 import { SignInPage } from './pages/sign-in'
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/login" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
                 <Route path="/explore" element={<ExplorePage />} />
+                <Route path="/category/:id" element={<CategoryDetailsPage />} />
               </Routes>
             </div>
           </div>
