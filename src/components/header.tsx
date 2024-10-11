@@ -4,10 +4,12 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
 import { auth } from '@/config/db/firebase.config'
+import { CartContext } from '@/contexts/cart-context'
 import { UserContext } from '@/contexts/user-context'
 
 export function Header() {
   const { isAuthenticated } = useContext(UserContext)
+  const { onOpenCart } = useContext(CartContext)
 
   return (
     <header className="flex max-h-16 min-h-16 w-full justify-center bg-customPrimary">
@@ -30,7 +32,7 @@ export function Header() {
               Sair
             </Link>
           )}
-          <ShoppingCart strokeWidth={2} />
+          <ShoppingCart strokeWidth={2} onClick={onOpenCart} className="hover:cursor-pointer" />
         </div>
       </div>
     </header>
