@@ -24,9 +24,12 @@ export function Header() {
               <Link to="/sign-up"> Criar Conta </Link>
             </>
           )}
-          <Link to="" onClick={() => signOut(auth)}>
-            Sair
-          </Link>
+
+          {isAuthenticated && (
+            <Link to="" onClick={() => signOut(auth)}>
+              Sair
+            </Link>
+          )}
           <ShoppingCart strokeWidth={2} />
         </div>
       </div>
