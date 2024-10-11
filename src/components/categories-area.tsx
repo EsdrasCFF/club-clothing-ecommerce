@@ -45,11 +45,19 @@ export function CategoriesArea() {
                 key={category.name}
                 categoryName={category.displayName}
                 src={category.imageUrl}
+                id={category.id}
               />
             )
           }
 
-          return <CategoryItem key={category.name} categoryName={category.displayName} src={category.imageUrl} />
+          return (
+            <CategoryItem
+              key={category.name}
+              categoryName={category.displayName}
+              src={category.imageUrl}
+              id={category.id}
+            />
+          )
         })}
       </div>
     </main>
