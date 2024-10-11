@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState } from 'react'
 
 import { Product } from '@/components/categories-area'
 
-interface CartProductProps extends Product {
+export interface CartProductProps extends Product {
   quantity: number
 }
 

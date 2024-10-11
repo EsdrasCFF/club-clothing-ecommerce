@@ -17,7 +17,7 @@ export function ProductItem({ product }: CategoryProductPros) {
 
   function handleAddProductToCart(product: Product) {
     addProductToCart(product)
-    toast.success(`${product.name} foi adicionado ao carrinho!`, { position: 'top-right' })
+    toast.success(`${product.name} foi adicionado ao carrinho!`)
   }
 
   return (
