@@ -12,6 +12,7 @@ interface ICartContext {
   onOpenCart: () => void
   onCloseCart: () => void
   addProductToCart: (product: Product) => void
+  removeProductFromCart: (productId: string) => void
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -20,6 +21,7 @@ export const CartContext = createContext<ICartContext>({
   onOpenCart() {},
   onCloseCart() {},
   addProductToCart() {},
+  removeProductFromCart() {},
 })
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
@@ -56,6 +58,9 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     setProducts(newCart)
   }
 
+  function removeProductFromCart(productId: string) {
+    setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId))
+  }
   return (
     <CartContext.Provider
       value={{
@@ -64,6 +69,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         onCloseCart,
         onOpenCart,
         addProductToCart,
+        removeProductFromCart,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import { MinusCircle, PlusCircle, XIcon } from 'lucide-react'
+import { useContext } from 'react'
 
-import { CartProductProps } from '@/contexts/cart-context'
+import { CartContext, CartProductProps } from '@/contexts/cart-context'
 import { currencyFormat } from '@/lib/utils'
 
 interface CartItemProps {
@@ -8,6 +9,12 @@ interface CartItemProps {
 }
 
 export function CartItem({ product }: CartItemProps) {
+  const { removeProductFromCart } = useContext(CartContext)
+
+  function handleDeleteProductFromCart(productId: string) {
+    removeProductFromCart(productId)
+  }
+
   return (
     <div className="flex h-44 w-full items-center justify-between">
       <div className="flex h-44 w-full items-center gap-2">
@@ -31,8 +38,11 @@ export function CartItem({ product }: CartItemProps) {
         </div>
       </div>
 
-      <div className="rounded-md p-[2px] transition-all hover:cursor-pointer hover:bg-black3/20">
-        <XIcon size={20} />{' '}
+      <div
+        className="rounded-md p-[2px] transition-all hover:cursor-pointer hover:bg-black3/20"
+        onClick={() => handleDeleteProductFromCart(product.id)}
+      >
+        <XIcon size={20} />
       </div>
     </div>
   )
