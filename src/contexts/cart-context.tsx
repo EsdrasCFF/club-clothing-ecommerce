@@ -35,7 +35,25 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
   }
 
   function addProductToCart(product: Product) {
-    setProducts((prevState) => [...prevState, { ...product, quantity: 1 }])
+    const productIsInTheCart = products.some((cartProduct) => product.id === cartProduct.id)
+
+    if (!productIsInTheCart) {
+      setProducts((prevState) => [...prevState, { ...product, quantity: 1 }])
+      return
+    }
+
+    const newCart = products.map((cartProduct) => {
+      if (cartProduct.id === product.id) {
+        return {
+          ...cartProduct,
+          quantity: cartProduct.quantity + 1,
+        }
+      }
+
+      return cartProduct
+    })
+
+    setProducts(newCart)
   }
 
   return (
