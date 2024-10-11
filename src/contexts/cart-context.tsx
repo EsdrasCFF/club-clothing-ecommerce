@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useMemo, useState } from 'react'
 
 import { Product } from '@/components/categories-area'
 
@@ -9,6 +9,7 @@ export interface CartProductProps extends Product {
 interface ICartContext {
   isOpen: boolean
   products: CartProductProps[]
+  totalCart: number
   onOpenCart: () => void
   onCloseCart: () => void
   addProductToCart: (product: Product) => void
@@ -20,6 +21,7 @@ interface ICartContext {
 export const CartContext = createContext<ICartContext>({
   isOpen: false,
   products: [],
+  totalCart: 0,
   onOpenCart() {},
   onCloseCart() {},
   addProductToCart() {},
@@ -31,6 +33,16 @@ export const CartContext = createContext<ICartContext>({
 export function CartContextProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState<CartProductProps[]>([])
+
+  const totalCart = useMemo(() => {
+    const amount = products.reduce((acc, cur) => {
+      const total = acc + cur.price * cur.quantity
+
+      return total
+    }, 0)
+
+    return amount
+  }, [products])
 
   function onOpenCart() {
     setIsOpen(true)
@@ -101,6 +113,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
       value={{
         isOpen,
         products,
+        totalCart,
         onCloseCart,
         onOpenCart,
         addProductToCart,
