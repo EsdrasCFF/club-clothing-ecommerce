@@ -11,6 +11,7 @@ interface ICartContext {
   products: CartProductProps[]
   onOpenCart: () => void
   onCloseCart: () => void
+  addProductToCart: (product: Product) => void
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -18,11 +19,12 @@ export const CartContext = createContext<ICartContext>({
   products: [],
   onOpenCart() {},
   onCloseCart() {},
+  addProductToCart() {},
 })
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [products] = useState<CartProductProps[]>([])
+  const [products, setProducts] = useState<CartProductProps[]>([])
 
   function onOpenCart() {
     setIsOpen(true)
@@ -32,6 +34,10 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     setIsOpen(false)
   }
 
+  function addProductToCart(product: Product) {
+    setProducts((prevState) => [...prevState, { ...product, quantity: 1 }])
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -39,6 +45,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         products,
         onCloseCart,
         onOpenCart,
+        addProductToCart,
       }}
     >
       {children}
