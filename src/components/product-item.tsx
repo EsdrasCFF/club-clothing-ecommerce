@@ -6,7 +6,7 @@ interface CategoryProductPros {
   price: number
 }
 
-export function CategoryProduct({ imageUrl, name, price }: CategoryProductPros) {
+export function ProductItem({ imageUrl, name, price }: CategoryProductPros) {
   return (
     <div className="h-full w-full">
       <div className="h-full max-h-96 w-full max-w-[18.75rem] overflow-hidden rounded-md shadow-lg shadow-gray2">
