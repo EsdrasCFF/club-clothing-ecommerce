@@ -9,7 +9,7 @@ import { CustomButton } from './custom-button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
 
 export function Cart() {
-  const { isOpen, onCloseCart, products, totalCart } = useContext(CartContext)
+  const { isOpen, onCloseCart, products, productsTotalValue } = useContext(CartContext)
 
   return (
     <Sheet open={isOpen} onOpenChange={onCloseCart}>
@@ -25,8 +25,8 @@ export function Cart() {
           ))}
         </div>
         <div className="flex flex-col border-t border-black3/20">
-          <p className="py-3 text-base font-semibold">{`Total: ${currencyFormat(totalCart)}`}</p>
-          <CustomButton icon={ShoppingBagIcon} title="Ir para o Pagamento" />
+          <p className="py-3 text-base font-semibold">{`Total: ${currencyFormat(productsTotalValue)}`}</p>
+          <CustomButton icon={ShoppingBagIcon} title="Ir para o Pagamento" disabled={products.length === 0} />
         </div>
       </SheetContent>
     </Sheet>

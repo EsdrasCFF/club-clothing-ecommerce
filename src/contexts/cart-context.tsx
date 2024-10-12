@@ -9,7 +9,8 @@ export interface CartProductProps extends Product {
 interface ICartContext {
   isOpen: boolean
   products: CartProductProps[]
-  totalCart: number
+  productsTotalValue: number
+  productsTotalQuantity: number
   onOpenCart: () => void
   onCloseCart: () => void
   addProductToCart: (product: Product) => void
@@ -21,7 +22,8 @@ interface ICartContext {
 export const CartContext = createContext<ICartContext>({
   isOpen: false,
   products: [],
-  totalCart: 0,
+  productsTotalValue: 0,
+  productsTotalQuantity: 0,
   onOpenCart() {},
   onCloseCart() {},
   addProductToCart() {},
@@ -34,7 +36,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
   const [products, setProducts] = useState<CartProductProps[]>([])
 
-  const totalCart = useMemo(() => {
+  const productsTotalValue = useMemo(() => {
     const amount = products.reduce((acc, cur) => {
       const total = acc + cur.price * cur.quantity
 
@@ -42,6 +44,11 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     }, 0)
 
     return amount
+  }, [products])
+
+  const productsTotalQuantity = useMemo(() => {
+    const total = products.reduce((acumulator, currentProduct) => acumulator + currentProduct.quantity, 0)
+    return total
   }, [products])
 
   function onOpenCart() {
@@ -95,16 +102,18 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
 
   function decreaseProductQuantity(productId: string) {
     setProducts((prevProducts) =>
-      prevProducts.map((product) => {
-        if (product.id == productId) {
-          return {
-            ...product,
-            quantity: product.quantity - 1,
+      prevProducts
+        .map((product) => {
+          if (product.id == productId) {
+            return {
+              ...product,
+              quantity: product.quantity - 1,
+            }
           }
-        }
 
-        return product
-      })
+          return product
+        })
+        .filter((produts) => produts.quantity > 0)
     )
   }
 
@@ -113,7 +122,8 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
       value={{
         isOpen,
         products,
-        totalCart,
+        productsTotalValue,
+        productsTotalQuantity,
         onCloseCart,
         onOpenCart,
         addProductToCart,
