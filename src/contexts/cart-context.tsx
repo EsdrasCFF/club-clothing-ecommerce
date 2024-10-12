@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useMemo, useState } from 'react'
+import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
 
 import { Product } from '@/components/categories-area'
 
@@ -34,7 +34,15 @@ export const CartContext = createContext<ICartContext>({
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [products, setProducts] = useState<CartProductProps[]>([])
+
+  const [products, setProducts] = useState<CartProductProps[]>(() => {
+    const productsFromLocalStorage = localStorage.getItem('@club-clothing-store:1.0')
+    if (!productsFromLocalStorage) {
+      return []
+    }
+    const productFromLocalStorage = JSON.parse(productsFromLocalStorage)
+    return productFromLocalStorage
+  })
 
   const productsTotalValue = useMemo(() => {
     const amount = products.reduce((acc, cur) => {
@@ -116,6 +124,15 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         .filter((produts) => produts.quantity > 0)
     )
   }
+
+  useEffect(() => {
+    const productsFromLocalStorage = JSON.parse(localStorage.getItem('@club-clothing-store:1.0')!)
+    setProducts(productsFromLocalStorage)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('@club-clothing-store:1.0', JSON.stringify(products))
+  }, [products])
 
   return (
     <CartContext.Provider
