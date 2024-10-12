@@ -9,7 +9,7 @@ import { UserContext } from '@/contexts/user-context'
 
 export function Header() {
   const { isAuthenticated } = useContext(UserContext)
-  const { onOpenCart } = useContext(CartContext)
+  const { onOpenCart, productsTotalQuantity } = useContext(CartContext)
 
   return (
     <header className="flex max-h-16 min-h-16 w-full justify-center bg-customPrimary">
@@ -32,7 +32,13 @@ export function Header() {
               Sair
             </Link>
           )}
-          <ShoppingCart strokeWidth={2} onClick={onOpenCart} className="hover:cursor-pointer" />
+
+          <div className="relative">
+            <ShoppingCart strokeWidth={2} onClick={onOpenCart} className="hover:cursor-pointer" />
+            <div className="absolute right-[-12px] top-[-12px] w-4 rounded-full bg-white text-center text-xs text-black3">
+              {productsTotalQuantity}
+            </div>
+          </div>
         </div>
       </div>
     </header>
