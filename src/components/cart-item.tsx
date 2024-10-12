@@ -39,7 +39,7 @@ export function CartItem({ product }: CartItemProps) {
           <p className="text-sm font-semibold">{product.name}</p>
           <span className="font-medium">{currencyFormat(product.price)}</span>
           <div className="flex items-center justify-center gap-3">
-            <button disabled={product.quantity === 1} className="group disabled:bg-none">
+            <button>
               <MinusCircle
                 size={20}
                 className="rounded-full transition-all hover:bg-black3/20 group-disabled:text-gray-300 group-disabled:hover:bg-none"
@@ -49,7 +49,7 @@ export function CartItem({ product }: CartItemProps) {
 
             <span className="leading-none">{product.quantity.toString().padStart(2, '0')}</span>
 
-            <button className="group">
+            <button>
               <PlusCircle
                 size={20}
                 className="rounded-full transition-all hover:bg-black3/20"
