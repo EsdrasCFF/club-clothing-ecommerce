@@ -5,7 +5,7 @@ import { Cart } from '@/components/cart'
 export function ComponentsProvider() {
   return (
     <>
-      <Toaster richColors />
+      <Toaster />
       <Cart />
     </>
   )
