@@ -10,6 +10,7 @@ import CategoryDetailsPage from './pages/category-details'
 import CheckoutPage from './pages/ckeckout'
 import ExplorePage from './pages/explore'
 import Home from './pages/home'
+import { PaymentConfirmationPage } from './pages/payment-confirmation'
 import { SignInPage } from './pages/sign-in'
 import { SignUpPage } from './pages/sign-up'
 import { ComponentsProvider } from './providers/components-provider'
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/category/:id" element={<CategoryDetailsPage />} />
+              <Route path="/payment-confirmation" element={<PaymentConfirmationPage />} />
               <Route
                 path="/checkout"
                 element={
