@@ -21,11 +21,15 @@ export default function CheckoutPage() {
         {products.map((product) => (
           <CartItem key={product.id} product={product} />
         ))}
+
+        {products.length == 0 && <p className="mt-3 text-center text-sm text-black3">Seu carrinho está vazio!</p>}
       </div>
 
-      <div className="my-5 w-full max-w-[40rem]">
-        <CustomButton icon={ShoppingBag} title="Finalizar compra" />
-      </div>
+      {products.length > 0 && (
+        <div className="my-5 w-full max-w-[40rem]">
+          <CustomButton icon={ShoppingBag} title="Finalizar compra" />
+        </div>
+      )}
     </main>
   )
 }
