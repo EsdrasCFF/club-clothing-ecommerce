@@ -13,7 +13,6 @@ export function PaymentConfirmationPage() {
   const { clearProducts } = useContext(CartContext)
 
   const status = searchParams.get('success')
-  const isCanceled = searchParams.get('canceled')
 
   const confettiRef = useRef<ConfettiRef>(null)
 
@@ -41,13 +40,12 @@ export function PaymentConfirmationPage() {
           </>
         )}
 
-        {status === 'false' ||
-          (isCanceled && (
-            <>
-              <XCircle size={120} className="text-rose-600" />
-              <p>Ocorreu um erro ao processar sua compra, tente novamente!</p>
-            </>
-          ))}
+        {status != 'true' && (
+          <>
+            <XCircle size={120} className="text-rose-600" />
+            <p>Ocorreu um erro ao processar sua compra, tente novamente!</p>
+          </>
+        )}
 
         <CustomButton
           icon={HomeIcon}
