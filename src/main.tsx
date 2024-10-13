@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import { Header } from './components/header'
+import { RouteProtector } from './guard/route-protector'
 import CategoryDetailsPage from './pages/category-details'
 import CheckoutPage from './pages/ckeckout'
 import ExplorePage from './pages/explore'
@@ -28,7 +29,14 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/explore" element={<ExplorePage />} />
               <Route path="/category/:id" element={<CategoryDetailsPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route
+                path="/checkout"
+                element={
+                  <RouteProtector>
+                    <CheckoutPage />
+                  </RouteProtector>
+                }
+              />
             </Routes>
           </div>
         </div>
