@@ -1,13 +1,35 @@
-import { ShoppingBag } from 'lucide-react'
-import { useContext } from 'react'
+import { Loader2, ShoppingBag } from 'lucide-react'
+import { useContext, useState } from 'react'
 
 import { CartItem } from '@/components/cart-item'
-import { CustomButton } from '@/components/custom-button'
 import { Title } from '@/components/title'
+import { Button } from '@/components/ui/button'
 import { CartContext } from '@/contexts/cart-context'
 
 export default function CheckoutPage() {
   const { products } = useContext(CartContext)
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function handlePurchaseClick() {
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_URL}/create-checkout-session`, {
+        body: JSON.stringify({ products }),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await response.json()
+
+      window.location.href = data.url
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <main className="flex h-full w-full flex-col items-center px-5">
@@ -26,8 +48,11 @@ export default function CheckoutPage() {
       </div>
 
       {products.length > 0 && (
-        <div className="my-5 w-full max-w-[40rem]">
-          <CustomButton icon={ShoppingBag} title="Finalizar compra" />
+        <div className="relative my-5 w-full max-w-[40rem]">
+          <Button className="w-full" disabled={isLoading} onClick={handlePurchaseClick}>
+            <ShoppingBag /> <p className="ml-3">Finalizar Compra</p>{' '}
+            {isLoading && <Loader2 className="ml-2 animate-spin" />}
+          </Button>
         </div>
       )}
     </main>
