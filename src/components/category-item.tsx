@@ -22,7 +22,7 @@ export function CategoryItem({ className, categoryName, id, src, ...rest }: Cate
     >
       <Link
         to={`/category/${id}`}
-        className="flex h-16 w-36 flex-col items-center justify-center rounded-md border border-black bg-gray2/45 text-sm font-bold text-white2"
+        className="flex h-16 w-36 flex-col items-center justify-center rounded-md border border-black bg-gray2/45 text-sm font-bold text-white2 hover:bg-black3/60"
       >
         <p>{categoryName}</p>
         <span className="font-light">Explorar</span>
