@@ -17,6 +17,7 @@ interface ICartContext {
   removeProductFromCart: (productId: string) => void
   increaseProductQuantity: (productId: string) => void
   decreaseProductQuantity: (productId: string) => void
+  clearProducts: () => void
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -30,6 +31,7 @@ export const CartContext = createContext<ICartContext>({
   removeProductFromCart() {},
   increaseProductQuantity() {},
   decreaseProductQuantity() {},
+  clearProducts() {},
 })
 
 export function CartContextProvider({ children }: { children: ReactNode }) {
@@ -125,6 +127,11 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
     )
   }
 
+  function clearProducts() {
+    setProducts([])
+    localStorage.setItem('@club-clothing-store:1.0', JSON.stringify([]))
+  }
+
   useEffect(() => {
     const productsFromLocalStorage = JSON.parse(localStorage.getItem('@club-clothing-store:1.0')!)
     setProducts(productsFromLocalStorage)
@@ -147,6 +154,7 @@ export function CartContextProvider({ children }: { children: ReactNode }) {
         removeProductFromCart,
         increaseProductQuantity,
         decreaseProductQuantity,
+        clearProducts,
       }}
     >
       {children}
