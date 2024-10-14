@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, createUserWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection } from 'firebase/firestore'
-import {} from 'lucide-react'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CiLogin } from 'react-icons/ci'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -15,7 +16,6 @@ import { CustomButton } from '@/components/custom-button'
 import CustomInput from '@/components/custom-input'
 import { LoadingGlobal } from '@/components/loading-global'
 import { auth, db } from '@/config/db/firebase.config'
-import { UserContext } from '@/contexts/user-context'
 
 import { Separator } from '../../components/ui/separator'
 
@@ -59,7 +59,7 @@ export function SignUpPage() {
 
   const [signInIsLoading, setSignInIsLoading] = useState(false)
 
-  const { isAuthenticated, isLoading } = useContext(UserContext)
+  const { isAuthenticated, isLoading } = useSelector((rootReducer: any) => rootReducer.userReducer)
 
   const navigate = useNavigate()
 

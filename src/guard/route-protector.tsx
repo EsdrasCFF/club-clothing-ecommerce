@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { ReactNode, useContext, useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import { LoadingGlobal } from '@/components/loading-global'
-import { UserContext } from '@/contexts/user-context'
 
 export function RouteProtector({ children }: { children: ReactNode }) {
-  const { isAuthenticated } = useContext(UserContext)
+  const { isAuthenticated } = useSelector((rootReducer: any) => rootReducer.userReducer)
 
   const navigate = useNavigate()
 
