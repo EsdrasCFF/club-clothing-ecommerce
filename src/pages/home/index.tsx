@@ -1,12 +1,10 @@
-import { useContext } from 'react'
-
 import { LoadingGlobal } from '@/components/loading-global'
-import { UserContext } from '@/contexts/user-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
 
 import { CategoriesArea } from '../../components/categories-area'
 
 export default function Home() {
-  const { isLoading } = useContext(UserContext)
+  const { isLoading } = useAppSelector((rootReducer) => rootReducer.userReducer)
 
   if (isLoading) {
     return <LoadingGlobal />
