@@ -3,4 +3,6 @@ export const CartActionsTypes = {
   ON_CLOSE_CART: 'cart/onCloseCart' as const,
   ADD_PRODUCT_TO_CART: 'cart/addProductToCart' as const,
   REMOVE_PRODUCT_FROM_CART: 'cart/removeProductFromCart' as const,
+  INCREASE_PROCUCT_QUANTITY: 'cart/incraseProductQuantity' as const,
+  DECREASE_PROCUCT_QUANTITY: 'cart/decreaseProductQuantity' as const,
 }

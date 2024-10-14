@@ -60,6 +60,46 @@ export const cartReducer = (state = initialState, action: CartActions) => {
       }
     }
 
+    case CartActionsTypes.INCREASE_PROCUCT_QUANTITY: {
+      const productId = action.payload
+
+      const newCart = state.products.map((product) => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            quantity: product.quantity + 1,
+          }
+        }
+        return product
+      })
+
+      return {
+        ...state,
+        products: newCart,
+      }
+    }
+
+    case CartActionsTypes.DECREASE_PROCUCT_QUANTITY: {
+      const productId = action.payload
+
+      const newCart = state.products
+        .map((product) => {
+          if (product.id === productId) {
+            return {
+              ...product,
+              quantity: product.quantity - 1,
+            }
+          }
+          return product
+        })
+        .filter((product) => product.quantity > 0)
+
+      return {
+        ...state,
+        products: newCart,
+      }
+    }
+
     default:
       return {
         ...state,
