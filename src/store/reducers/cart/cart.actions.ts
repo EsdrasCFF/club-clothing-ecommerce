@@ -34,6 +34,10 @@ interface DecreaseProductQuantity {
   payload: string
 }
 
+interface ClearProducts {
+  type: typeof CartActionsTypes.CLEAR_PRODUCTS
+}
+
 export const onOpenCart = (): OnOpenCartAction => ({
   type: CartActionsTypes.ON_OPEN_CART,
 })
@@ -62,6 +66,10 @@ export const decreaseProductQuantity = (payload: string): DecreaseProductQuantit
   payload,
 })
 
+export const clearProducts = (): ClearProducts => ({
+  type: CartActionsTypes.CLEAR_PRODUCTS,
+})
+
 export type CartActions =
   | OnOpenCartAction
   | OnCloseCartAction
@@ -69,3 +77,4 @@ export type CartActions =
   | RemoveProductFromCart
   | IncreaseProductQuantity
   | DecreaseProductQuantity
+  | ClearProducts

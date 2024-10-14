@@ -5,4 +5,5 @@ export const CartActionsTypes = {
   REMOVE_PRODUCT_FROM_CART: 'cart/removeProductFromCart' as const,
   INCREASE_PROCUCT_QUANTITY: 'cart/incraseProductQuantity' as const,
   DECREASE_PROCUCT_QUANTITY: 'cart/decreaseProductQuantity' as const,
+  CLEAR_PRODUCTS: 'cart/clearProducts' as const,
 }

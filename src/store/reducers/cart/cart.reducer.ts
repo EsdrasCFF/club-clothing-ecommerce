@@ -100,6 +100,11 @@ export const cartReducer = (state = initialState, action: CartActions) => {
       }
     }
 
+    case CartActionsTypes.CLEAR_PRODUCTS: {
+      localStorage.setItem('@club-clothing-store:1.0', JSON.stringify([]))
+      return { ...state, products: [] }
+    }
+
     default:
       return {
         ...state,

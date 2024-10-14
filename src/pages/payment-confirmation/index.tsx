@@ -1,18 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { CheckCircleIcon, HomeIcon, XCircle } from 'lucide-react'
-import { useContext, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { CustomButton } from '@/components/custom-button'
 import Confetti, { ConfettiRef } from '@/components/ui/confetti'
-import { CartContext } from '@/contexts/cart-context'
+import { clearProducts } from '@/store/reducers/cart/cart.actions'
+import { AppDispatch } from '@/store/store'
 
 export function PaymentConfirmationPage() {
   const [searchParams] = useSearchParams()
-  const { clearProducts } = useContext(CartContext)
 
   const status = searchParams.get('success')
+
+  const dispatch: AppDispatch = useDispatch()
 
   const confettiRef = useRef<ConfettiRef>(null)
 
@@ -22,12 +25,16 @@ export function PaymentConfirmationPage() {
     navigate('/')
   }
 
+  function handleClearProducts() {
+    dispatch(clearProducts())
+  }
+
   useEffect(() => {
     if (status === 'true') {
-      clearProducts()
+      handleClearProducts()
       confettiRef.current!.fire({})
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <main className="relative flex h-full w-full flex-col items-center justify-center px-5">
