@@ -3,25 +3,29 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { ShoppingCart } from 'lucide-react'
-import { useContext, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { auth, db } from '@/config/db/firebase.config'
-import { CartContext } from '@/contexts/cart-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
+import { onOpenCart } from '@/store/reducers/cart/cart.actions'
 import { loginUser, logoutUser } from '@/store/reducers/user/user.actions'
 import { User } from '@/store/reducers/user/user.reducer'
 
 export function Header() {
-  const { onOpenCart, productsTotalQuantity } = useContext(CartContext)
+  const dispatch: any = useDispatch()
 
-  const dispatch = useDispatch()
-
-  const { isAuthenticated } = useSelector((rootReducer: any) => rootReducer.userReducer)
+  const { isAuthenticated } = useAppSelector((rootReducer) => rootReducer.userReducer)
+  const { productsTotalQuantity } = useAppSelector((rootReducer) => rootReducer.cartReducer)
 
   function handleSignOutClick() {
     dispatch(logoutUser())
     signOut(auth)
+  }
+
+  function handleOnOpenCartClick() {
+    dispatch(onOpenCart())
   }
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export function Header() {
           )}
 
           <div className="relative">
-            <ShoppingCart strokeWidth={2} onClick={onOpenCart} className="hover:cursor-pointer" />
+            <ShoppingCart strokeWidth={2} onClick={handleOnOpenCartClick} className="hover:cursor-pointer" />
             <div className="absolute right-[-12px] top-[-12px] w-4 rounded-full bg-white text-center text-xs text-black3">
               {productsTotalQuantity}
             </div>

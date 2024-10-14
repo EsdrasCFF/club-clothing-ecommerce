@@ -1,5 +1,3 @@
- 
-
 import { UserActions } from './user.actions'
 import { UserActionsTypes } from './user.actions-types'
 
@@ -22,7 +20,7 @@ const initialState: InitalState = {
   isLoading: true,
 }
 
-const userReducer = (state = initialState, action: UserActions): InitalState => {
+export const userReducer = (state = initialState, action: UserActions): InitalState => {
   switch (action.type) {
     case UserActionsTypes.LOGIN:
       return { ...state, currentUser: action.payload, isAuthenticated: true, isLoading: false }
@@ -36,5 +34,3 @@ const userReducer = (state = initialState, action: UserActions): InitalState => 
       }
   }
 }
-
-export default userReducer

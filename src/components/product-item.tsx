@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { ShoppingBag } from 'lucide-react'
-import { useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 
-import { CartContext } from '@/contexts/cart-context'
 import { currencyFormat } from '@/lib/utils'
+import { addProductToCart } from '@/store/reducers/cart/cart.actions'
 
 import { Product } from './categories-area'
 import { CustomButton } from './custom-button'
@@ -13,10 +15,10 @@ interface CategoryProductPros {
 }
 
 export function ProductItem({ product }: CategoryProductPros) {
-  const { addProductToCart } = useContext(CartContext)
+  const dispatch: any = useDispatch()
 
   function handleAddProductToCart(product: Product) {
-    addProductToCart(product)
+    dispatch(addProductToCart(product))
     toast.success(`${product.name} foi adicionado ao carrinho!`)
   }
 

@@ -1,26 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { ShoppingBagIcon } from 'lucide-react'
-import { useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { CartContext } from '@/contexts/cart-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
 import { currencyFormat } from '@/lib/utils'
+import { onCloseCart } from '@/store/reducers/cart/cart.actions'
 
 import { CartItem } from './cart-item'
 import { CustomButton } from './custom-button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
 
 export function Cart() {
-  const { isOpen, onCloseCart, products, productsTotalValue } = useContext(CartContext)
+  const { isOpen, products, productsTotalValue } = useAppSelector((rootReducer) => rootReducer.cartReducer)
+  const dispatch: any = useDispatch()
 
   const navigate = useNavigate()
 
   function handleGoToCheckout() {
     navigate('/checkout')
-    onCloseCart()
+    dispatch(onCloseCart())
+  }
+
+  function handleCartChange() {
+    dispatch(onCloseCart())
   }
 
   return (
-    <Sheet open={isOpen} onOpenChange={onCloseCart}>
+    <Sheet open={isOpen} onOpenChange={handleCartChange}>
       <SheetContent className="flex h-screen flex-col justify-between">
         <SheetHeader>
           <SheetTitle className="text-black3">Seu Carrinho</SheetTitle>
