@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
- 
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AuthError, AuthErrorCodes, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
@@ -82,9 +81,8 @@ export function SignInPage() {
       }
 
       toast.success('Successfully authentication!')
-    } catch (err) {
+    } catch {
       toast.error('Failed to authentication', { position: 'top-right' })
-      console.log(err)
     } finally {
       setSignInIsLoading(false)
     }
