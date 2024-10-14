@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { UserActionsTypes } from './user.actions-types'
+
 export interface User {
   firstName: string
   lastName: string
@@ -21,10 +23,10 @@ const initialState: InitalState = {
 
 export const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case 'LOGIN_USER':
+    case UserActionsTypes.LOGIN:
       return { ...state, currentUser: action.payload, isAuthenticated: true, isLoading: false }
 
-    case 'LOGOUT_USER':
+    case UserActionsTypes.LOGOUT:
       return { ...state, currentUser: null, isAuthenticated: false, isLoading: false }
 
     default:

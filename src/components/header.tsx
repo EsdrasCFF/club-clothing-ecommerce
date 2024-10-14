@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom'
 
 import { auth, db } from '@/config/db/firebase.config'
 import { CartContext } from '@/contexts/cart-context'
-import { User } from '@/store/reducers/user.reducer'
+import { loginUser, logoutUser } from '@/store/reducers/user/user.actions'
+import { User } from '@/store/reducers/user/user.reducer'
 
 export function Header() {
   const { onOpenCart, productsTotalQuantity } = useContext(CartContext)
@@ -18,13 +19,16 @@ export function Header() {
 
   const { isAuthenticated } = useSelector((rootReducer: any) => rootReducer.userReducer)
 
-  console.log({ isAuthenticated })
+  function handleSignOutClick() {
+    dispatch(logoutUser())
+    signOut(auth)
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       const isSigningOut = isAuthenticated && !user
       if (isSigningOut) {
-        dispatch({ type: 'LOGOUT_USER' })
+        dispatch(logoutUser())
         return
       }
 
@@ -34,7 +38,7 @@ export function Header() {
         const userFromFirestore = querySnapshot.docs[0]?.data()
 
         if (userFromFirestore) {
-          dispatch({ type: 'LOGIN_USER', payload: userFromFirestore as User })
+          dispatch(loginUser(userFromFirestore as User))
         }
 
         return
@@ -61,7 +65,7 @@ export function Header() {
           )}
 
           {isAuthenticated && (
-            <Link to="" onClick={() => signOut(auth)}>
+            <Link to="" onClick={handleSignOutClick}>
               Sair
             </Link>
           )}
