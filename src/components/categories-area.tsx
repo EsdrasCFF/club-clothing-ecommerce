@@ -26,7 +26,6 @@ export function CategoriesArea() {
   const { categories, fetchCategories, isLoading } = useContext(CategoryContext)
 
   useEffect(() => {
-    console.log('renderizou')
     fetchCategories()
   }, [])
 

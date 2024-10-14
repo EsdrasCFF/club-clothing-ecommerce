@@ -33,7 +33,6 @@ export function CategoryContextProvider({ children }: { children: ReactNode }) {
       })
 
       setCategories(categoriesFromFirestore)
-      console.log({ categoriesFromFirestore })
     } catch (e) {
       console.log('Error to fetch categories:', e)
     } finally {
