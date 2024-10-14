@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { auth, db } from '@/config/db/firebase.config'
 import { useAppSelector } from '@/hooks/redux.hooks'
 import { onOpenCart } from '@/store/reducers/cart/cart.actions'
+import { selectProductsTotalQuantity } from '@/store/reducers/cart/cart.selectors'
 import { loginUser, logoutUser } from '@/store/reducers/user/user.actions'
 import { User } from '@/store/reducers/user/user.reducer'
 
@@ -17,7 +18,7 @@ export function Header() {
   const dispatch: any = useDispatch()
 
   const { isAuthenticated } = useAppSelector((rootReducer) => rootReducer.userReducer)
-  const { productsTotalQuantity } = useAppSelector((rootReducer) => rootReducer.cartReducer)
+  const productsTotalQuantity = useAppSelector(selectProductsTotalQuantity)
 
   function handleSignOutClick() {
     dispatch(logoutUser())

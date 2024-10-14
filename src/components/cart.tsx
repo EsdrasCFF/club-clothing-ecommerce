@@ -7,14 +7,17 @@ import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '@/hooks/redux.hooks'
 import { currencyFormat } from '@/lib/utils'
 import { onCloseCart } from '@/store/reducers/cart/cart.actions'
+import { selectProductsTotalPrice } from '@/store/reducers/cart/cart.selectors'
 
 import { CartItem } from './cart-item'
 import { CustomButton } from './custom-button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
 
 export function Cart() {
-  const { isOpen, products, productsTotalValue } = useAppSelector((rootReducer) => rootReducer.cartReducer)
+  const { isOpen, products } = useAppSelector((rootReducer) => rootReducer.cartReducer)
   const dispatch: any = useDispatch()
+
+  const productsTotalPrice = useAppSelector(selectProductsTotalPrice)
 
   const navigate = useNavigate()
 
@@ -41,7 +44,7 @@ export function Cart() {
           ))}
         </div>
         <div className="flex flex-col border-t border-black3/20">
-          <p className="py-3 text-base font-semibold">{`Total: ${currencyFormat(productsTotalValue)}`}</p>
+          <p className="py-3 text-base font-semibold">{`Total: ${currencyFormat(productsTotalPrice)}`}</p>
           <CustomButton
             icon={ShoppingBagIcon}
             title="Ir para o Pagamento"

@@ -10,15 +10,11 @@ export interface CartProductProps extends Product {
 interface InitialState {
   isOpen: boolean
   products: CartProductProps[]
-  productsTotalValue: number
-  productsTotalQuantity: number
 }
 
 const initialState: InitialState = {
   isOpen: false,
   products: [],
-  productsTotalValue: 0,
-  productsTotalQuantity: 0,
 }
 
 export const cartReducer = (state = initialState, action: CartActions) => {
