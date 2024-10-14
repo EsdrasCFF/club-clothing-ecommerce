@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { ShoppingCart } from 'lucide-react'
@@ -13,9 +11,10 @@ import { onOpenCart } from '@/store/reducers/cart/cart.actions'
 import { selectProductsTotalQuantity } from '@/store/reducers/cart/cart.selectors'
 import { loginUser, logoutUser } from '@/store/reducers/user/user.actions'
 import { User } from '@/store/reducers/user/user.reducer'
+import { AppDispatch } from '@/store/store'
 
 export function Header() {
-  const dispatch: any = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
 
   const { isAuthenticated } = useAppSelector((rootReducer) => rootReducer.userReducer)
   const productsTotalQuantity = useAppSelector(selectProductsTotalQuantity)

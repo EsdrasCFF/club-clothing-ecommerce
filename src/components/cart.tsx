@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { ShoppingBagIcon } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +6,7 @@ import { useAppSelector } from '@/hooks/redux.hooks'
 import { currencyFormat } from '@/lib/utils'
 import { onCloseCart } from '@/store/reducers/cart/cart.actions'
 import { selectProductsTotalPrice } from '@/store/reducers/cart/cart.selectors'
+import { AppDispatch } from '@/store/store'
 
 import { CartItem } from './cart-item'
 import { CustomButton } from './custom-button'
@@ -15,7 +14,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from './ui/sheet'
 
 export function Cart() {
   const { isOpen, products } = useAppSelector((rootReducer) => rootReducer.cartReducer)
-  const dispatch: any = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
 
   const productsTotalPrice = useAppSelector(selectProductsTotalPrice)
 

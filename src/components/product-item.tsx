@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { ShoppingBag } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 
 import { currencyFormat } from '@/lib/utils'
 import { addProductToCart } from '@/store/reducers/cart/cart.actions'
+import { AppDispatch } from '@/store/store'
 
 import { Product } from './categories-area'
 import { CustomButton } from './custom-button'
@@ -15,7 +14,7 @@ interface CategoryProductPros {
 }
 
 export function ProductItem({ product }: CategoryProductPros) {
-  const dispatch: any = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
 
   function handleAddProductToCart(product: Product) {
     dispatch(addProductToCart(product))

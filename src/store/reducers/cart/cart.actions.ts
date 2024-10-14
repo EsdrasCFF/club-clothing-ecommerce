@@ -14,6 +14,11 @@ interface OnCloseCartAction {
   type: typeof CartActionsTypes.ON_CLOSE_CART
 }
 
+interface RemoveProductFromCart {
+  type: typeof CartActionsTypes.REMOVE_PRODUCT_FROM_CART
+  payload: string
+}
+
 interface AddProductToCart {
   type: typeof CartActionsTypes.ADD_PRODUCT_TO_CART
   payload: Product
@@ -32,4 +37,9 @@ export const addProductToCart = (payload: Product): AddProductToCart => ({
   payload,
 })
 
-export type CartActions = OnOpenCartAction | OnCloseCartAction | AddProductToCart
+export const removeProductFromCart = (payload: string): RemoveProductFromCart => ({
+  type: CartActionsTypes.REMOVE_PRODUCT_FROM_CART,
+  payload,
+})
+
+export type CartActions = OnOpenCartAction | OnCloseCartAction | AddProductToCart | RemoveProductFromCart

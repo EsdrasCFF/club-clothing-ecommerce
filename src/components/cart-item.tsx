@@ -1,18 +1,23 @@
 import { MinusCircle, PlusCircle, XIcon } from 'lucide-react'
 import { useContext } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { CartContext, CartProductProps } from '@/contexts/cart-context'
 import { currencyFormat } from '@/lib/utils'
+import { removeProductFromCart } from '@/store/reducers/cart/cart.actions'
+import { AppDispatch } from '@/store/store'
 
 interface CartItemProps {
   product: CartProductProps
 }
 
 export function CartItem({ product }: CartItemProps) {
-  const { removeProductFromCart, increaseProductQuantity, decreaseProductQuantity } = useContext(CartContext)
+  const { increaseProductQuantity, decreaseProductQuantity } = useContext(CartContext)
+
+  const dispatch: AppDispatch = useDispatch()
 
   function handleDeleteProductFromCart(productId: string) {
-    removeProductFromCart(productId)
+    dispatch(removeProductFromCart(productId))
   }
 
   function handleIncreaseProductQuantity(productId: string) {
@@ -42,7 +47,7 @@ export function CartItem({ product }: CartItemProps) {
             <button>
               <MinusCircle
                 size={20}
-                className="rounded-full transition-all hover:bg-black3/20 group-disabled:text-gray-300 group-disabled:hover:bg-none"
+                className="rounded-full transition-all group-disabled:text-gray-300 hover:bg-black3/20 group-disabled:hover:bg-none"
                 onClick={() => handleDecreaseProductQuantity(product.id)}
               />
             </button>
