@@ -1,15 +1,14 @@
 import { Loader2, ShoppingBag } from 'lucide-react'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 
 import { CartItem } from '@/components/cart-item'
 import { Title } from '@/components/title'
 import { Button } from '@/components/ui/button'
-import { CartContext } from '@/contexts/cart-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
 
 export default function CheckoutPage() {
-  const { products } = useContext(CartContext)
   const [isLoading, setIsLoading] = useState(false)
-
+  const { products } = useAppSelector((rootSelector) => rootSelector.cartReducer)
   async function handlePurchaseClick() {
     setIsLoading(true)
     try {
