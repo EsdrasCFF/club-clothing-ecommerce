@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { CategoryContext } from '@/contexts/category-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
+import { fetchCategories } from '@/store/reducers/category/category.actions'
+import { AppDispatch } from '@/store/store'
 
 import { CategoryItem } from './category-item'
 import { LoadingGlobal } from './loading-global'
@@ -23,10 +26,12 @@ export interface CategoryProps {
 }
 
 export function CategoriesArea() {
-  const { categories, fetchCategories, isLoading } = useContext(CategoryContext)
+  const { categories, isLoading } = useAppSelector((rootState) => rootState.categoryReducer)
+
+  const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
-    fetchCategories()
+    dispatch(fetchCategories())
   }, [])
 
   if (isLoading) {

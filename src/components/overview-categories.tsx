@@ -1,18 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { CategoryContext } from '@/contexts/category-context'
+import { useAppSelector } from '@/hooks/redux.hooks'
+import { fetchCategories } from '@/store/reducers/category/category.actions'
+import { AppDispatch } from '@/store/store'
 
 import { CategoryCotainer } from './category-container'
 
 export function OverviewCategories() {
-  const { categories, fetchCategories } = useContext(CategoryContext)
+  const dispatch: AppDispatch = useDispatch()
+  const { categories } = useAppSelector((rootState) => rootState.categoryReducer)
 
   useEffect(() => {
-    if (categories.length === 0) {
-      fetchCategories()
-    }
+    dispatch(fetchCategories())
   }, [])
 
   return (
