@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom'
 
 import { auth, db } from '@/config/db/firebase.config'
 import { useAppSelector } from '@/hooks/redux.hooks'
-import { onOpenCart } from '@/store/reducers/cart/cart.actions'
-import { selectProductsTotalQuantity } from '@/store/reducers/cart/cart.selectors'
 import { loginUser, logoutUser } from '@/store/reducers/user/user.actions'
 import { User } from '@/store/reducers/user/user.reducer'
 import { AppDispatch } from '@/store/store'
+import { selectProductsTotalQuantity } from '@/store/toolkit/cart/cart-selectors'
+import { openCart } from '@/store/toolkit/cart/cart-slice'
 
 export function Header() {
   const dispatch: AppDispatch = useDispatch()
@@ -25,7 +25,7 @@ export function Header() {
   }
 
   function handleOnOpenCartClick() {
-    dispatch(onOpenCart())
+    dispatch(openCart())
   }
 
   useEffect(() => {

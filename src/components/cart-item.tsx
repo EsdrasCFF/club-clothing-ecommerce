@@ -2,21 +2,19 @@ import { MinusCircle, PlusCircle, XIcon } from 'lucide-react'
 import { useDispatch } from 'react-redux'
 
 import { currencyFormat } from '@/lib/utils'
+import { AppDispatch } from '@/store/store'
 import {
+  CartProductProps,
   decreaseProductQuantity,
   increaseProductQuantity,
   removeProductFromCart,
-} from '@/store/reducers/cart/cart.actions'
-import { CartProductProps } from '@/store/reducers/cart/cart.reducer'
-import { AppDispatch } from '@/store/store'
+} from '@/store/toolkit/cart/cart-slice'
 
 interface CartItemProps {
   product: CartProductProps
 }
 
 export function CartItem({ product }: CartItemProps) {
-  // const { increaseProductQuantity, decreaseProductQuantity } = useContext(CartContext)
-
   const dispatch: AppDispatch = useDispatch()
 
   function handleDeleteProductFromCart(productId: string) {

@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAppSelector } from '@/hooks/redux.hooks'
 import { currencyFormat } from '@/lib/utils'
-import { onCloseCart } from '@/store/reducers/cart/cart.actions'
-import { selectProductsTotalPrice } from '@/store/reducers/cart/cart.selectors'
 import { AppDispatch } from '@/store/store'
+import { selectProductsTotalPrice } from '@/store/toolkit/cart/cart-selectors'
+import { closeCart } from '@/store/toolkit/cart/cart-slice'
 
 import { CartItem } from './cart-item'
 import { CustomButton } from './custom-button'
@@ -22,11 +22,11 @@ export function Cart() {
 
   function handleGoToCheckout() {
     navigate('/checkout')
-    dispatch(onCloseCart())
+    dispatch(closeCart())
   }
 
   function handleCartChange() {
-    dispatch(onCloseCart())
+    dispatch(closeCart())
   }
 
   return (

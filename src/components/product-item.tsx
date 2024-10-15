@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'sonner'
 
 import { currencyFormat } from '@/lib/utils'
-import { addProductToCart } from '@/store/reducers/cart/cart.actions'
 import { AppDispatch } from '@/store/store'
+import { addProductToCart } from '@/store/toolkit/cart/cart-slice'
 
 import { Product } from './categories-area'
 import { CustomButton } from './custom-button'

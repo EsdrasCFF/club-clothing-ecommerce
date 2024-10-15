@@ -7,8 +7,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { CustomButton } from '@/components/custom-button'
 import Confetti, { ConfettiRef } from '@/components/ui/confetti'
-import { clearProducts } from '@/store/reducers/cart/cart.actions'
 import { AppDispatch } from '@/store/store'
+import { clearProducts } from '@/store/toolkit/cart/cart-slice'
 
 export function PaymentConfirmationPage() {
   const [searchParams] = useSearchParams()
