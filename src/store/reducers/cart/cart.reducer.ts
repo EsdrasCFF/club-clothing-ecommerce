@@ -17,7 +17,7 @@ const initialState: InitialState = {
   products: [],
 }
 
-export const cartReducer = (state = initialState, action: CartActions) => {
+export const cartReducer = (state = initialState, action: CartActions): InitialState => {
   switch (action.type) {
     case CartActionsTypes.ON_OPEN_CART:
       return { ...state, isOpen: true }
@@ -106,8 +106,6 @@ export const cartReducer = (state = initialState, action: CartActions) => {
     }
 
     default:
-      return {
-        ...state,
-      }
+      return state
   }
 }

@@ -1,11 +1,11 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from '@reduxjs/toolkit'
 
 import { cartReducer } from './reducers/cart/cart.reducer'
 import { userReducer } from './reducers/user/user.reducer'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   userReducer,
   cartReducer,
 })
 
-export default rootReducer
+export type RootState = ReturnType<typeof rootReducer>

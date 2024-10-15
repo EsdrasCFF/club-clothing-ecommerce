@@ -29,8 +29,6 @@ export const userReducer = (state = initialState, action: UserActions): InitalSt
       return { ...state, currentUser: null, isAuthenticated: false, isLoading: false }
 
     default:
-      return {
-        ...state,
-      }
+      return state
   }
 }
